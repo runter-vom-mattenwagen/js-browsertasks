@@ -22,7 +22,7 @@ A simple task management application that runs in the browser. This app allows u
    
 2. **Navigate to the directory**:
    ```bash
-   cd task-manager
+   cd js-browsertasks
    ```
 
 3. **Open in the browser**:
