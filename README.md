@@ -13,15 +13,11 @@ A simple task management application that runs in the browser. This app allows u
 - **Automatic Category Removal**: Categories with no associated tasks are automatically deleted.
 - **Survive Browser Restarts**: Tasks are stored in `localStorage` for persistence across browser sessions.
 
-## Preview
-
-![Task Manager Preview](#) <!-- Add a screenshot of the app if you'd like -->
-
 ## Installation
 
 1. **Clone the repository**:
    ```bash
-   git clone https://github.com/your-username/task-manager.git
+   git clone https://github.com/runter-vom-mattenwagen/js-browsertasks
    ```
    
 2. **Navigate to the directory**:
