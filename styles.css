@@ -37,8 +37,8 @@ ul {
 li {
     display: flex;
     align-items: center;
-    margin-bottom: 10px;
-    padding: 5px;
+    margin-bottom: 5px;
+    padding: 1px;
     border: 1px solid #ddd;
     border-radius: 5px;
     position: relative; /* Für die Positionierung der Buttons */
@@ -46,7 +46,7 @@ li {
 }
 
 .category {
-    background-color: #f0f0f0;
+    background-color: #e0e0e0;
     padding: 2px 5px;
     border-radius: 3px;
     margin-right: 10px;
@@ -59,7 +59,7 @@ li {
 
 .button-container {
     display: flex;
-    gap: 10px; /* Abstand zwischen den Buttons */
+    gap: 7px; /* Abstand zwischen den Buttons */
 }
 
 button {

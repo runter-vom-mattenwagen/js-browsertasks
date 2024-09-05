@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aufgabenverwaltung Launcher</title>
+    <script>
+        // Funktion zum Öffnen eines neuen Fensters mit der Aufgabenverwaltung
+        function openTaskManagerWindow() {
+            const width = 800;  // Breite des Fensters
+            const height = 800; // Höhe des Fensters
+            const left = (screen.width - width) / 2;  // Zentriert auf dem Bildschirm
+            const top = (screen.height - height) / 2;
+
+            // Neues Fenster öffnen
+            window.open('index.html', 'TaskManager', `width=${width},height=${height},top=${top},left=${left},resizable=no`);
+
+            // Das ursprüngliche Launcher-Fenster schließen
+            window.close();
+        }
+
+        // Öffnet das Fenster, sobald die Seite geladen wird
+        window.onload = function() {
+            openTaskManagerWindow();
+        }
+    </script>
+</head>
+<body>
+    <noscript>Bitte aktiviere JavaScript, um die Aufgabenverwaltung zu nutzen.</noscript>
+</body>
+</html>
+
