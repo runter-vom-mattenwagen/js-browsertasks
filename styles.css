@@ -1,0 +1,90 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 20px;
+}
+
+.container {
+    max-width: 800px;
+    margin: auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.task-form {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.category-input {
+    width: auto; /* Automatische Breite durch JavaScript angepasst */
+    min-width: 400px; /* Mindestbreite */
+}
+
+.task-list, .completed-list {
+    margin-bottom: 20px;
+}
+
+ul {
+    list-style: none;
+    padding: 0;
+}
+
+li {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+    padding: 5px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    position: relative; /* Für die Positionierung der Buttons */
+    justify-content: space-between; /* Um Platz für Buttons zu schaffen */
+}
+
+.category {
+    background-color: #f0f0f0;
+    padding: 2px 5px;
+    border-radius: 3px;
+    margin-right: 10px;
+    font-weight: bold;
+}
+
+.task-text {
+    margin-right: auto; /* Task text und Category linksbündig */
+}
+
+.button-container {
+    display: flex;
+    gap: 10px; /* Abstand zwischen den Buttons */
+}
+
+button {
+    font-size: 14px;
+    padding: 5px 10px;
+}
+
+.completed {
+    text-decoration: line-through;
+    color: #888;
+}
+
+.edit-button::before {
+    content: '✎'; /* Stiftsymbol */
+}
+
+.delete-button::before {
+    content: '🗑️'; /* Papierkorb-Symbol */
+}
+
+.activate-button::before {
+    content: '↩'; /* Zurück-Pfeil-Symbol */
+}
+
+.complete-button::before {
+    content: '✔'; /* Häkchen-Symbol */
+}
+

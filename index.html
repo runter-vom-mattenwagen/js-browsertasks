@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aufgaben 📋</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>ToDo-Liste 📋</h1>
+
+        <div class="task-form">
+            <input type="text" id="taskInput" placeholder="Neue Aufgabe" class="category-input">
+            <input type="text" id="categoryInput" placeholder="Kategorie">
+            <button id="addTaskButton">Hinzufügen</button>
+        </div>
+
+        <div class="task-list">
+            <h3>Offene Aufgaben</h3>
+            <select id="categoryFilter">
+                <option value="all">Alle Kategorien</option>
+            </select>
+            <ul id="taskList"></ul>
+        </div>
+
+        <div class="completed-list">
+            <h3>Abgeschlossene Aufgaben</h3>
+            <ul id="completedList"></ul>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
+
