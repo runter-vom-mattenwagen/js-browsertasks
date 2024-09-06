@@ -68,12 +68,12 @@ button {
 }
 
 .completed {
-    text-decoration: line-through;
+    /* text-decoration: line-through; */
     color: #888;
 }
 
 .edit-button::before {
-    content: '✎'; /* Stiftsymbol */
+    content: '🖉'; /* Stiftsymbol */
 }
 
 .delete-button::before {
@@ -82,9 +82,10 @@ button {
 
 .activate-button::before {
     content: '↩'; /* Zurück-Pfeil-Symbol */
+    color: black; /* ohne Funktion weil bereits schwarz */
 }
 
 .complete-button::before {
-    content: '✔'; /* Häkchen-Symbol */
+    content: '✔'; /* Häkchen-Symbol ✓ */
 }
 

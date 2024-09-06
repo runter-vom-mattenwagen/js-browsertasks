@@ -98,7 +98,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
                 if (task.completed) {
                     listItem.classList.add('completed');
-
+                    taskText.style.textDecoration = 'line-through'; /* Marcostyle */
                     const activateButton = document.createElement('button');
                     activateButton.className = 'activate-button';
                     activateButton.onclick = () => activateTask(task.id);
