@@ -8,12 +8,22 @@
 </head>
 <body>
     <div class="container">
-        <h1>ToDo-Liste 📋</h1>
+        <h1>ToDo-Liste 
+            <!-- Add a small settings icon (could be replaced with an image or FontAwesome icon) -->
+            <span id="settingsIcon" style="cursor: pointer;">📋</span>
+        </h1>
 
         <div class="task-form">
             <input type="text" id="taskInput" placeholder="Neue Aufgabe" class="category-input">
             <input type="text" id="categoryInput" placeholder="Kategorie">
             <button id="addTaskButton">Hinzufügen</button>
+        </div>
+
+        <!-- Hidden task controls (import/export) -->
+        <div class="task-controls" id="taskControls" style="display: none;">
+            <button id="exportTasksButton">Export Tasks</button>
+            <button id="importTasksButton">Import Tasks</button>
+            <input type="file" id="fileInput" accept=".json" style="display: none;">
         </div>
 
         <div class="task-list">
@@ -30,7 +40,10 @@
         </div>
     </div>
 
+    <!-- Main script for managing tasks -->
     <script src="script.js"></script>
+    <!-- Import/Export functionalities -->
+    <script src="importExport.js"></script>
 </body>
 </html>
 

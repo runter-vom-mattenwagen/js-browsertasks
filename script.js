@@ -26,30 +26,32 @@ document.addEventListener('DOMContentLoaded', function() {
     function addTask() {
         const taskText = taskInput.value.trim();
         const categoryText = categoryInput.value.trim();
-
+    
         if (taskText === '' || categoryText === '') {
             alert('Bitte sowohl eine Aufgabe als auch eine Kategorie eingeben.');
             return;
         }
-
+    
         const task = {
             id: Date.now(),
             name: taskText,
             category: categoryText,
-            completed: false
+            completed: false,
+            prioritized: false  // Add this new property
         };
-
+    
         tasks.push(task);
         categories.add(categoryText);
-
+    
         saveTasks();
         updateCategoryFilter();
         renderTasks();
-
+    
         taskInput.value = '';
         categoryInput.value = '';
         taskInput.focus();
     }
+
 
     function saveTasks() {
         localStorage.setItem('tasks', JSON.stringify(tasks));
@@ -81,6 +83,17 @@ document.addEventListener('DOMContentLoaded', function() {
         taskList.innerHTML = '';
         completedList.innerHTML = '';
 
+        // Sort tasks: prioritized tasks first, and sort by ID (newer tasks come later)
+        tasks.sort((a, b) => {
+            if (a.prioritized && !b.prioritized) {
+                return -1; // a is prioritized, b is not, so a comes first
+            } else if (!a.prioritized && b.prioritized) {
+                return 1; // b is prioritized, a is not, so b comes first
+            } else {
+                return a.id - b.id; // If both are the same priority, sort by ID (oldest first)
+            }
+        });
+
         tasks.forEach(task => {
             if (filter === 'all' || task.category === filter) {
                 const listItem = document.createElement('li');
@@ -88,27 +101,41 @@ document.addEventListener('DOMContentLoaded', function() {
                 const categorySpan = document.createElement('span');
                 categorySpan.textContent = task.category;
                 categorySpan.className = 'category';
+                categorySpan.style.cursor = 'pointer';
+
+                // Change background color if prioritized
+                if (task.prioritized) {
+                    listItem.style.backgroundColor = 'yellow';
+                }
+
+                // Add click event for toggling prioritization
+                categorySpan.addEventListener('click', function() {
+                    task.prioritized = !task.prioritized; // Toggle priority
+                    saveTasks();
+                    renderTasks(); // Re-render tasks to reflect changes
+                });
 
                 const taskText = document.createElement('span');
                 taskText.textContent = task.name;
                 taskText.className = 'task-text';
-
+    
                 const buttonContainer = document.createElement('div');
                 buttonContainer.className = 'button-container';
-
+    
                 if (task.completed) {
                     listItem.classList.add('completed');
-                    taskText.style.textDecoration = 'line-through'; /* Marcostyle */
+                    taskText.style.textDecoration = 'line-through';
+    
                     const activateButton = document.createElement('button');
                     activateButton.className = 'activate-button';
                     activateButton.onclick = () => activateTask(task.id);
                     buttonContainer.appendChild(activateButton);
-
+    
                     const deleteButton = document.createElement('button');
                     deleteButton.className = 'delete-button';
                     deleteButton.onclick = () => deleteTask(task.id);
                     buttonContainer.appendChild(deleteButton);
-
+    
                     listItem.appendChild(categorySpan);
                     listItem.appendChild(taskText);
                     listItem.appendChild(buttonContainer);
@@ -117,14 +144,14 @@ document.addEventListener('DOMContentLoaded', function() {
                     const editButton = document.createElement('button');
                     editButton.className = 'edit-button';
                     editButton.onclick = () => editTask(task.id);
-
+    
                     const completeButton = document.createElement('button');
                     completeButton.className = 'complete-button';
                     completeButton.onclick = () => completeTask(task.id);
-
+    
                     buttonContainer.appendChild(editButton);
                     buttonContainer.appendChild(completeButton);
-
+    
                     listItem.appendChild(categorySpan);
                     listItem.appendChild(taskText);
                     listItem.appendChild(buttonContainer);
@@ -133,6 +160,8 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     }
+
+
 
     function completeTask(taskId) {
         tasks = tasks.map(task => {
