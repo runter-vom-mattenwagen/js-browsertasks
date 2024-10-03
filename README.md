@@ -44,7 +44,7 @@ A simple task management application that runs in the browser. This app allows u
 2. A new window will open containing the task manager interface.
 3. Start creating, editing, and managing your tasks.
 4. Click on category to check/uncheck priority of task.
-5. Click on icon right to headline to open the import/export dialog
+5. Click on icon right to heading to open the import/export dialog
 
 ## Development Details
 

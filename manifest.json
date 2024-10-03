@@ -1,0 +1,17 @@
+{
+  "manifest_version": 2,
+  "name": "js-browsertasks",
+  "version": "1.0",
+  "description": "Aufgabenverwaltung",
+  "browser_action": {
+    "default_popup": "index.html",
+    "default_icon": {
+        "48": "banana.png"
+    }
+  },
+  "permissions": [
+    "activeTab",
+    "storage"
+  ]
+}
+
