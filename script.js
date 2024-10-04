@@ -26,12 +26,12 @@ document.addEventListener('DOMContentLoaded', function() {
     function addTask() {
         const taskText = taskInput.value.trim();
         const categoryText = categoryInput.value.trim();
-    
+
         if (taskText === '' || categoryText === '') {
             alert('Bitte sowohl eine Aufgabe als auch eine Kategorie eingeben.');
             return;
         }
-    
+
         const task = {
             id: Date.now(),
             name: taskText,
@@ -39,14 +39,14 @@ document.addEventListener('DOMContentLoaded', function() {
             completed: false,
             prioritized: false  // Add this new property
         };
-    
+
         tasks.push(task);
         categories.add(categoryText);
-    
+
         saveTasks();
         updateCategoryFilter();
         renderTasks();
-    
+
         taskInput.value = '';
         categoryInput.value = '';
         taskInput.focus();
@@ -108,29 +108,39 @@ document.addEventListener('DOMContentLoaded', function() {
                     listItem.style.backgroundColor = 'yellow';
                 }
 
-                // Add click event for toggling prioritization
-                categorySpan.addEventListener('click', function() {
-                    task.prioritized = !task.prioritized; // Toggle priority
+                // marcokram
+                function handleCategoryClick() {
+                    task.prioritized = !task.prioritized;  // Toggle priority
                     saveTasks();
-                    renderTasks(); // Re-render tasks to reflect changes
-                });
+                    renderTasks();  // Re-render tasks to reflect changes
+                }
+                categorySpan.addEventListener('click', handleCategoryClick);
+                //
 
                 const taskText = document.createElement('span');
                 taskText.textContent = task.name;
                 taskText.className = 'task-text';
-    
+
                 const buttonContainer = document.createElement('div');
                 buttonContainer.className = 'button-container';
-    
+
                 if (task.completed) {
                     listItem.classList.add('completed');
                     taskText.style.textDecoration = 'line-through';
-    
+                    listItem.style.backgroundColor = '';
+                    categorySpan.removeEventListener('click', handleCategoryClick);
+                    categorySpan.style.cursor = 'default';
+
+                    const doneDateSpan = document.createElement('span');
+                    doneDateSpan.className = 'done-date';
+                    doneDateSpan.textContent = ` (${task.doneDate || 'Unbekannt'})`;
+                    doneDateSpan.style.marginRight = '3px';
+
                     const activateButton = document.createElement('button');
                     activateButton.className = 'activate-button';
                     activateButton.onclick = () => activateTask(task.id);
                     buttonContainer.appendChild(activateButton);
-    
+
                     const deleteButton = document.createElement('button');
                     deleteButton.className = 'delete-button';
                     deleteButton.onclick = () => deleteTask(task.id);
@@ -138,20 +148,21 @@ document.addEventListener('DOMContentLoaded', function() {
     
                     listItem.appendChild(categorySpan);
                     listItem.appendChild(taskText);
+                    listItem.appendChild(doneDateSpan);
                     listItem.appendChild(buttonContainer);
                     completedList.appendChild(listItem);
                 } else {
                     const editButton = document.createElement('button');
                     editButton.className = 'edit-button';
                     editButton.onclick = () => editTask(task.id);
-    
+
                     const completeButton = document.createElement('button');
                     completeButton.className = 'complete-button';
                     completeButton.onclick = () => completeTask(task.id);
-    
+
                     buttonContainer.appendChild(editButton);
                     buttonContainer.appendChild(completeButton);
-    
+
                     listItem.appendChild(categorySpan);
                     listItem.appendChild(taskText);
                     listItem.appendChild(buttonContainer);
@@ -162,11 +173,11 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
 
-
     function completeTask(taskId) {
         tasks = tasks.map(task => {
             if (task.id === taskId) {
                 task.completed = true;
+                task.doneDate = new Date().toISOString().split('T')[0];  // Set done date as current date (YYYY-MM-DD)
             }
             return task;
         });
@@ -180,6 +191,7 @@ document.addEventListener('DOMContentLoaded', function() {
         tasks = tasks.map(task => {
             if (task.id === taskId) {
                 task.completed = false;
+                delete task.doneDate;
             }
             return task;
         });
@@ -192,8 +204,8 @@ document.addEventListener('DOMContentLoaded', function() {
     function editTask(taskId) {
         const task = tasks.find(task => task.id === taskId);
 
-        const newTaskName = prompt('Aufgabe bearbeiten:', task.name);
-        const newCategoryName = prompt('Kategorie bearbeiten:', task.category);
+        const newTaskName = prompt('Aufgabe', task.name);
+        const newCategoryName = prompt('Kategorie', task.category);
 
         if (newTaskName && newCategoryName) {
             task.name = newTaskName;

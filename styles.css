@@ -88,4 +88,3 @@ button {
 .complete-button::before {
     content: '✔'; /* Häkchen-Symbol ✓ */
 }
-
