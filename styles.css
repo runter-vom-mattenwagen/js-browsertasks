@@ -1,8 +1,9 @@
+/* General Styles */
 body {
     font-family: Arial, sans-serif;
     background-color: #f4f4f4;
     margin: 0;
-    padding: 20px;
+    padding: 12px;
 }
 
 .container {
@@ -14,6 +15,7 @@ body {
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
+/* Flexbox for the task form */
 .task-form {
     display: flex;
     gap: 10px;
@@ -21,14 +23,15 @@ body {
 }
 
 .category-input {
-    width: auto; /* Automatische Breite durch JavaScript angepasst */
-    min-width: 400px; /* Mindestbreite */
+    width: auto;
+    min-width: 400px;
 }
 
 .task-list, .completed-list {
     margin-bottom: 20px;
 }
 
+/* List styles */
 ul {
     list-style: none;
     padding: 0;
@@ -41,25 +44,27 @@ li {
     padding: 1px;
     border: 1px solid #ddd;
     border-radius: 5px;
-    position: relative; /* Für die Positionierung der Buttons */
-    justify-content: space-between; /* Um Platz für Buttons zu schaffen */
+    justify-content: space-between;
 }
 
+/* Category label */
 .category {
     background-color: #e0e0e0;
     padding: 2px 5px;
     border-radius: 3px;
-    margin-right: 10px;
+    margin-right: 7px;
     font-weight: bold;
 }
 
+/* Align task text and category to the left */
 .task-text {
-    margin-right: auto; /* Task text und Category linksbündig */
+    margin-right: auto;
 }
 
+/* Buttons inside each list item */
 .button-container {
     display: flex;
-    gap: 7px; /* Abstand zwischen den Buttons */
+    gap: 7px;
 }
 
 button {
@@ -67,24 +72,81 @@ button {
     padding: 5px 10px;
 }
 
+/* Completed task styles */
 .completed {
-    /* text-decoration: line-through; */
     color: #888;
 }
 
+/* Icon button styles */
 .edit-button::before {
-    content: '🖉'; /* Stiftsymbol */
+    content: '🖉';
 }
 
 .delete-button::before {
-    content: '🗑️'; /* Papierkorb-Symbol */
+    content: '🗑️';
 }
 
 .activate-button::before {
-    content: '↩'; /* Zurück-Pfeil-Symbol */
-    color: black; /* ohne Funktion weil bereits schwarz */
+    content: '↩';
+    color: black;
 }
 
 .complete-button::before {
-    content: '✔'; /* Häkchen-Symbol ✓ */
+    content: '✔';
 }
+
+/* --- Responsive Design --- */
+
+/* Adjust for screens smaller than 768px (tablets and small devices) */
+@media (max-width: 768px) {
+    .container {
+        max-width: 100%;
+        padding: 10px;
+    }
+
+    .task-form {
+        flex-direction: column;
+    }
+
+    .category-input, .task-form input, .task-form button {
+        width: 100%;
+        box-sizing: border-box;
+        padding: 10px;
+    }
+
+    .task-form button {
+        margin-top: 10px; /* Adds some spacing between button and input fields */
+    }
+}
+
+/* Very small mobile screens (max-width: 480px) */
+@media (max-width: 480px) {
+
+    .button-container {
+        display: flex;
+        gap: 4px;
+    }
+
+    button {
+        font-size: 12px;
+        padding: 5px 5px;
+    }
+
+    h1 {
+        font-size: 1.5rem;
+    }
+
+    .task-list h3, .completed-list h3 {
+        font-size: 1.2rem;
+    }
+
+    .task-form input, .task-form button {
+        font-size: 0.9rem;
+        padding: 8px;
+    }
+
+    .category-input {
+        min-width: 100%; /* Ensure input field spans full width on small screens */
+    }
+}
+
