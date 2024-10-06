@@ -28,7 +28,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const categoryText = categoryInput.value.trim();
 
         if (taskText === '' || categoryText === '') {
-            alert('Bitte sowohl eine Aufgabe als auch eine Kategorie eingeben.');
+            alert('Please enter a task and a category.');
             return;
         }
 
@@ -52,14 +52,13 @@ document.addEventListener('DOMContentLoaded', function() {
         taskInput.focus();
     }
 
-
     function saveTasks() {
         localStorage.setItem('tasks', JSON.stringify(tasks));
     }
 
     function updateCategoryFilter() {
         const selectedCategory = categoryFilter.value;
-        categoryFilter.innerHTML = '<option value="all">Alle Kategorien</option>';
+        categoryFilter.innerHTML = '<option value="all">All Categories</option>';
 
         categories.forEach(category => {
             const option = document.createElement('option');
@@ -133,7 +132,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
                     const doneDateSpan = document.createElement('span');
                     doneDateSpan.className = 'done-date';
-                    doneDateSpan.textContent = ` (${task.doneDate || 'Unbekannt'})`;
+                    doneDateSpan.textContent = ` (${task.doneDate || 'Unknown'})`;
                     doneDateSpan.style.marginRight = '3px';
 
                     const activateButton = document.createElement('button');
@@ -145,7 +144,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     deleteButton.className = 'delete-button';
                     deleteButton.onclick = () => deleteTask(task.id);
                     buttonContainer.appendChild(deleteButton);
-    
+
                     listItem.appendChild(categorySpan);
                     listItem.appendChild(taskText);
                     listItem.appendChild(doneDateSpan);
@@ -204,8 +203,8 @@ document.addEventListener('DOMContentLoaded', function() {
     function editTask(taskId) {
         const task = tasks.find(task => task.id === taskId);
 
-        const newTaskName = prompt('Aufgabe', task.name);
-        const newCategoryName = prompt('Kategorie', task.category);
+        const newTaskName = prompt('Task', task.name);
+        const newCategoryName = prompt('Category', task.category);
 
         if (newTaskName && newCategoryName) {
             task.name = newTaskName;

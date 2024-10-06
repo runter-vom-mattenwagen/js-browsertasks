@@ -1,22 +1,22 @@
 <!DOCTYPE html>
-<html lang="de">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aufgaben 📋</title>
+    <title>📋 Tasks</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <div class="container">
-        <h1>ToDo-Liste 
+        <h1>Tasks 
             <!-- Add a small settings icon (could be replaced with an image or FontAwesome icon) -->
             <span id="settingsIcon" style="cursor: pointer;">📋</span>
         </h1>
 
         <div class="task-form">
-            <input type="text" id="taskInput" placeholder="Neue Aufgabe" class="category-input">
-            <input type="text" id="categoryInput" placeholder="Kategorie">
-            <button id="addTaskButton">Hinzufügen</button>
+            <input type="text" id="taskInput" placeholder="New Task" class="category-input">
+            <input type="text" id="categoryInput" placeholder="Category">
+            <button id="addTaskButton">Add</button>
         </div>
 
         <!-- Hidden task controls (import/export) -->
@@ -27,15 +27,15 @@
         </div>
 
         <div class="task-list">
-            <h3>Offene Aufgaben</h3>
+            <h3>To Do</h3>
             <select id="categoryFilter">
-                <option value="all">Alle Kategorien</option>
+                <option value="all">All Categories</option>
             </select>
             <ul id="taskList"></ul>
         </div>
 
         <div class="completed-list">
-            <h3>Abgeschlossene Aufgaben</h3>
+            <h3>Done</h3>
             <ul id="completedList"></ul>
         </div>
     </div>

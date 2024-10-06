@@ -6,57 +6,68 @@ document.addEventListener('DOMContentLoaded', function() {
     const fileInput = document.getElementById('fileInput');
     const settingsIcon = document.getElementById('settingsIcon');
     const taskControls = document.getElementById('taskControls');
+    const versionNumber = 'v0.8.4'; // Update version as needed
+    const githubRepo = 'https://github.com/runter-vom-mattenwagen/js-browsertasks';
 
-    // Toggle visibility of import/export buttons when the settings icon is clicked
-    settingsIcon.addEventListener('click', function() {
-        if (taskControls.style.display === 'none') {
-            taskControls.style.display = 'block';
-        } else {
-            taskControls.style.display = 'none';
+    // Utility: Toggle visibility for a given element
+    function toggleVisibility(element) {
+        element.style.display = (element.style.display === 'none' || element.style.display === '') ? 'block' : 'none';
+    }
+
+    // Add version info footer (only once)
+    function addVersionInfo() {
+        let versionInfo = document.getElementById('versionInfo');
+        if (!versionInfo) {
+            versionInfo = document.createElement('footer');
+            versionInfo.id = 'versionInfo';
+            versionInfo.style = 'margin-top: 20px; text-align: center; font-size: 0.9em; display: none;';
+            versionInfo.innerHTML = `Version: ${versionNumber} | <a href="${githubRepo}" target="_blank" style="text-decoration: none;">js-browsertasks</a>`;
+            document.body.appendChild(versionInfo);
         }
+    }
+
+    addVersionInfo();
+
+    // Event: Toggle task controls and version info on settings icon click
+    settingsIcon.addEventListener('click', () => {
+        toggleVisibility(taskControls);
+        toggleVisibility(document.getElementById('versionInfo'));
     });
 
-    // Event listener for exporting tasks
-    exportButton.addEventListener('click', exportTasks);
-    
-    // Event listener for triggering file input for importing tasks
-    importButton.addEventListener('click', () => fileInput.click());
-    
-    // Event listener for reading file input and importing tasks
-    fileInput.addEventListener('change', importTasks);
-
-    function exportTasks() {
+    // Event: Export tasks to JSON
+    exportButton.addEventListener('click', () => {
         const tasksJSON = JSON.stringify(tasks, null, 2);
         const blob = new Blob([tasksJSON], { type: 'application/json' });
         const url = URL.createObjectURL(blob);
-
         const a = document.createElement('a');
         a.href = url;
         a.download = 'tasks.json';
         a.click();
         URL.revokeObjectURL(url);
-    }
+    });
 
-    function importTasks(event) {
+    // Event: Import tasks from JSON
+    importButton.addEventListener('click', () => fileInput.click());
+    fileInput.addEventListener('change', (event) => {
         const file = event.target.files[0];
         if (!file) return;
 
         const reader = new FileReader();
-        reader.onload = function(e) {
+        reader.onload = (e) => {
             try {
                 const importedTasks = JSON.parse(e.target.result);
                 if (Array.isArray(importedTasks)) {
                     tasks = importedTasks;
                     localStorage.setItem('tasks', JSON.stringify(tasks));
-                    location.reload(); // Refresh the page to reflect imported tasks
+                    location.reload(); // Reload page to reflect imported tasks
                 } else {
-                    alert('Ungültige Datei. Bitte eine gültige JSON-Datei hochladen.');
+                    alert('Invalid file. Please upload a valid JSON file.');
                 }
             } catch (error) {
-                alert('Fehler beim Laden der Datei.');
+                alert('Error loading file.');
             }
         };
         reader.readAsText(file);
-    }
+    });
 });
 
