@@ -1,7 +1,21 @@
+/* Define default (light mode) colors */
+:root {
+    --background-color: #f4f4f4;
+    --text-color: #000;
+    --container-bg-color: #f4f4f4;
+    --border-color: #ccc;
+    --shadow-color: rgba(0, 0, 0, 0.1);
+    --category-bg-color: #e0e0e0;
+    --completed-text-color: #888;
+    --button-bg-color: #e0e0e0;
+    --button-text-color: #000;
+}
+
 /* General Styles */
 body {
     font-family: Arial, sans-serif;
-    background-color: #f4f4f4;
+    background-color: var(--background-color); /* Background color */
+    color: var(--text-color); /* Text color */
     margin: 0;
     padding: 12px;
 }
@@ -10,9 +24,10 @@ body {
     max-width: 800px;
     margin: auto;
     padding: 20px;
-    border: 1px solid #ccc;
+    background-color: var(--container-bg-color); /* Container background */
+    border: 1px solid var(--border-color); /* Border color */
     border-radius: 20px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 0 10px var(--shadow-color); /* Box shadow color */
 }
 
 /* Flexbox for the task form */
@@ -42,14 +57,14 @@ li {
     align-items: center;
     margin-bottom: 5px;
     padding: 1px;
-    border: 1px solid #ddd;
+    border: 1px solid var(--border-color); /* Border color */
     border-radius: 5px;
     justify-content: space-between;
 }
 
 /* Category label */
 .category {
-    background-color: #e0e0e0;
+    background-color: var(--category-bg-color); /* Category background */
     padding: 2px 5px;
     border-radius: 3px;
     margin-right: 7px;
@@ -70,16 +85,18 @@ li {
 button {
     font-size: 14px;
     padding: 5px 10px;
+    background-color: var(--button-bg-color); /* Button background */
+    color: var(--button-text-color); /* Button text color */
 }
 
 /* Completed task styles */
 .completed {
-    color: #888;
+    color: var(--completed-text-color); /* Completed task text color */
 }
 
 /* Icon button styles */
 .edit-button::before {
-    content: '🖉';
+    content: '✏️';
 }
 
 .delete-button::before {
@@ -93,6 +110,40 @@ button {
 
 .complete-button::before {
     content: '✔';
+}
+
+/* --- Dark Mode Styles --- */
+/* --- Dark Mode Styles --- */
+.dark-mode {
+    --background-color: #121212; /* Darker background for dark mode */
+    --text-color: #f4f4f4; /* Lighter text color for contrast */
+    --container-bg-color: #1e1e1e; /* Dark container background */
+    --border-color: #333; /* Darker border color */
+    --shadow-color: rgba(255, 255, 255, 0.1); /* Softer shadow */
+    --category-bg-color: #333; /* Darker category background */
+    --completed-text-color: #aaa; /* Lighter color for completed tasks */
+    --button-bg-color: #333; /* Darker button background */
+    --button-text-color: #fff; /* Lighter button text color */
+}
+
+/* Button styles for dark mode */
+.dark-mode button {
+    background-color: var(--button-bg-color); /* Dark background for buttons */
+    color: var(--button-text-color); /* Light text color */
+    border: 1px solid var(--border-color); /* Subtle border */
+    transition: background-color 0.3s ease, color 0.3s ease; /* Smooth transitions */
+}
+
+/* Button hover effect in dark mode */
+.dark-mode button:hover {
+    background-color: #444; /* Slightly lighter on hover */
+    color: #fff; /* Ensure the text stays white */
+}
+
+/* More prominent hover effect for dark mode buttons */
+.dark-mode button:active {
+    background-color: #555; /* Even lighter when active */
+    color: #fff;
 }
 
 /* --- Responsive Design --- */
@@ -121,7 +172,6 @@ button {
 
 /* Very small mobile screens (max-width: 480px) */
 @media (max-width: 480px) {
-
     .button-container {
         display: flex;
         gap: 4px;
