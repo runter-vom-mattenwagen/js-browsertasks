@@ -65,6 +65,7 @@ li {
 /* Category label */
 .category {
     background-color: var(--category-bg-color); /* Category background */
+    color: var(--category-text-color); /* marco */
     padding: 2px 5px;
     border-radius: 3px;
     margin-right: 7px;
@@ -79,14 +80,17 @@ li {
 /* Buttons inside each list item */
 .button-container {
     display: flex;
-    gap: 7px;
+    gap: 5px;
 }
 
 button {
     font-size: 14px;
-    padding: 5px 10px;
+    padding: 5px 8px;
     background-color: var(--button-bg-color); /* Button background */
     color: var(--button-text-color); /* Button text color */
+    border: 1px solid var(--border-color); /* Button border */
+    /* box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1); /* Lighter shadow */
+    box-shadow: none
 }
 
 /* Completed task styles */
@@ -120,7 +124,8 @@ button {
     --container-bg-color: #1e1e1e; /* Dark container background */
     --border-color: #333; /* Darker border color */
     --shadow-color: rgba(255, 255, 255, 0.1); /* Softer shadow */
-    --category-bg-color: #333; /* Darker category background */
+    --category-bg-color: #666; /* Darker category background */
+    --category-text-color: #000;
     --completed-text-color: #aaa; /* Lighter color for completed tasks */
     --button-bg-color: #333; /* Darker button background */
     --button-text-color: #fff; /* Lighter button text color */

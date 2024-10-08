@@ -104,7 +104,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
                 // Change background color if prioritized
                 if (task.prioritized) {
-                    listItem.style.backgroundColor = 'yellow';
+                    listItem.style.backgroundColor = 'gold';
+                    listItem.style.color = 'black';
                 }
 
                 // marcokram
@@ -127,6 +128,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     listItem.classList.add('completed');
                     taskText.style.textDecoration = 'line-through';
                     listItem.style.backgroundColor = '';
+                    listItem.style.color = ''; // marco
                     categorySpan.removeEventListener('click', handleCategoryClick);
                     categorySpan.style.cursor = 'default';
 
