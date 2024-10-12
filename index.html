@@ -9,22 +9,21 @@
 <body>
     <div class="container">
         <h1>Tasks 
-            <!-- Add a small settings icon (could be replaced with an image or FontAwesome icon) -->
             <span id="settingsIcon" style="cursor: pointer;">📋</span>
         </h1>
 
         <div class="task-form">
             <input type="text" id="taskInput" placeholder="New Task" class="category-input">
             <input type="text" id="categoryInput" placeholder="Category">
-            <button id="addTaskButton">Add</button>
+            <button id="addTaskButton" style="border-radius: 2px;">Add</button>
         </div>
 
         <!-- Hidden task controls (import/export) -->
         <div class="task-controls" id="taskControls" style="display: none;">
-            <button id="exportTasksButton">Export Tasks</button>
-            <button id="importTasksButton">Import Tasks</button>
+            <button id="exportTasksButton" style="border-radius: 2px;">Export Tasks</button>
+            <button id="importTasksButton" style="border-radius: 2px;">Import Tasks</button>
             <input type="file" id="fileInput" accept=".json" style="display: none;">
-            <button id="darkModeToggle">Toggle Dark Mode</button>
+            <button id="darkModeToggle" style="border-radius: 2px;">Toggle Dark Mode</button>
         </div>
 
         <div class="task-list">
