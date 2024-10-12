@@ -57,7 +57,7 @@ li {
     align-items: center;
     margin-bottom: 5px;
     padding: 3px;
-    border: 1px solid var(--border-color); /* Border color */
+    border: 1px solid var(--border-color);
     border-radius: 5px;
     justify-content: space-between;
 }
@@ -80,29 +80,31 @@ li {
 /* Buttons inside each list item */
 .button-container {
     display: flex;
-    gap: 5px;
+    gap: 4px;
 }
 
 button {
     border-radius: 50%; // 50% fuer rund
     font-size: 14px;
     padding: 5px 8px;
-    background-color: var(--button-bg-color); /* Button background */
-    color: var(--button-text-color); /* Button text color */
-    border: 1px solid var(--border-color); /* Button border */
-    /* box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1); /* Lighter shadow */
-    box-shadow: none;
+    background-color: var(--button-bg-color);
+    color: var(--button-text-color);
+    border: 1px solid var(--border-color);
+    box-shadow: 0 3px 3px rgba(0, 0, 0, 0.1);
+}
+
+button:hover {
+    background-color: #c2c2c2;
 }
 
 /* Completed task styles */
 .completed {
-    color: var(--completed-text-color); /* Completed task text color */
+    color: var(--completed-text-color);
 }
 
 /* Icon button styles */
 .edit-button::before {
     content: '✏️';
-    border-radius: 50%; // 50% fuer rund
 }
 
 .delete-button::before {
@@ -144,12 +146,6 @@ button {
     color: #fff; /* Ensure the text stays white */
 }
 
-/* More prominent hover effect for dark mode buttons */
-.dark-mode button:active {
-    background-color: #555; /* Even lighter when active */
-    color: #fff;
-}
-
 /* --- Responsive Design --- */
 
 /* Adjust for screens smaller than 768px (tablets and small devices) */
@@ -178,7 +174,7 @@ button {
 @media (max-width: 480px) {
     .button-container {
         display: flex;
-        gap: 4px;
+        gap: 2px;
     }
 
     button {
@@ -196,7 +192,7 @@ button {
 
     .task-form input, .task-form button {
         font-size: 0.9rem;
-        padding: 8px;
+        padding: 6px;
     }
 
     .category-input {
