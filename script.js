@@ -4,8 +4,10 @@ document.addEventListener('DOMContentLoaded', function() {
 
     const taskInput = document.getElementById('taskInput');
     const categoryInput = document.getElementById('categoryInput');
+    const categoryDropdown = document.getElementById('categoryDropdown');
     const addTaskButton = document.getElementById('addTaskButton');
     const categoryFilter = document.getElementById('categoryFilter');
+    const presets = ['🛒', '🩺', '💻', '💰'];
 
     addTaskButton.addEventListener('click', addTask);
 
@@ -19,6 +21,10 @@ document.addEventListener('DOMContentLoaded', function() {
         if (event.key === 'Enter') {
             addTask();
         }
+    });
+
+    categoryDropdown.addEventListener('change', function() {
+        categoryInput.value = categoryDropdown.value;
     });
 
     categoryFilter.addEventListener('change', filterTasks);
@@ -37,7 +43,7 @@ document.addEventListener('DOMContentLoaded', function() {
             name: taskText,
             category: categoryText,
             completed: false,
-            prioritized: false  // Add this new property
+            prioritized: false
         };
 
         tasks.push(task);
@@ -45,6 +51,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
         saveTasks();
         updateCategoryFilter();
+        updateCategoryDropdown();
         renderTasks();
 
         taskInput.value = '';
@@ -55,6 +62,28 @@ document.addEventListener('DOMContentLoaded', function() {
     function saveTasks() {
         localStorage.setItem('tasks', JSON.stringify(tasks));
     }
+
+    function updateCategoryDropdown() {
+        categoryDropdown.innerHTML = '<option value="">🍌</option>';
+        categories.forEach(category => {
+
+            if (!presets.includes(category)) {
+                const option = document.createElement('option');
+                option.value = category;
+                option.textContent = category;
+                categoryDropdown.appendChild(option);
+            }
+        });
+
+        presets.forEach(preset => {
+            const option = document.createElement('option');
+            option.value = preset;
+            option.textContent = preset;
+            categoryDropdown.appendChild(option);
+        });
+    }
+
+
 
     function updateCategoryFilter() {
         const selectedCategory = categoryFilter.value;
@@ -243,6 +272,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // Initiale Anzeige der Aufgaben und Kategorien
+    updateCategoryDropdown();
     updateCategoryFilter();
     renderTasks();
     adjustCategoryInputWidth();

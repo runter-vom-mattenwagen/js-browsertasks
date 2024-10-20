@@ -97,6 +97,31 @@ button:hover {
     background-color: #c2c2c2;
 }
 
+
+/* Dropdown-Styles */
+select {
+    font-size: 14px;
+    padding: 5px 8px;
+    background-color: var(--button-bg-color); /* Gleiche Hintergrundfarbe wie der Button */
+    color: var(--button-text-color);          /* Gleiche Textfarbe wie der Button */
+    border: 1px solid var(--border-color);    /* Gleiche Randfarbe */
+    border-radius: 5px;                       /* Gleiche Rundung */
+    box-shadow: 0 3px 3px rgba(0, 0, 0, 0.1); /* Gleicher Schatten wie beim Button */
+    cursor: pointer;                          /* Zeiger beim Hover */
+}
+
+/* Optional: Hover-Effekt für Dropdown */
+select:hover {
+    background-color: #c2c2c2; /* Gleicher Hover-Effekt wie beim Button */
+}
+
+/* Dropdown-Optionen */
+select option {
+    background-color: var(--button-bg-color); /* Hintergrundfarbe für die Optionen */
+    color: var(--button-text-color);          /* Textfarbe für die Optionen */
+}
+
+
 /* Completed task styles */
 .completed {
     color: var(--completed-text-color);
@@ -145,6 +170,18 @@ button:hover {
     background-color: #444; /* Slightly lighter on hover */
     color: #fff; /* Ensure the text stays white */
 }
+
+/* Dropdown im Dark Mode */
+.dark-mode select {
+    background-color: var(--button-bg-color); /* Gleiche Hintergrundfarbe wie der Button im Dark Mode */
+    color: var(--button-text-color);          /* Gleiche Textfarbe wie der Button im Dark Mode */
+    border: 1px solid var(--border-color);    /* Randfarbe im Dark Mode */
+}
+
+.dark-mode select:hover {
+    background-color: #777; /* Gleicher Hover-Effekt im Dark Mode */
+}
+
 
 /* --- Responsive Design --- */
 
@@ -199,4 +236,5 @@ button:hover {
         min-width: 100%; /* Ensure input field spans full width on small screens */
     }
 }
+
 

@@ -15,7 +15,9 @@
         <div class="task-form">
             <input type="text" id="taskInput" placeholder="New Task" class="category-input">
             <input type="text" id="categoryInput" placeholder="Category">
-            <button id="addTaskButton" style="border-radius: 2px;">Add</button>
+            <select id="categoryDropdown">
+            </select>
+            <button id="addTaskButton" style="border-radius: 2px;">➕</button>
         </div>
 
         <!-- Hidden task controls (import/export) -->
@@ -40,9 +42,7 @@
         </div>
     </div>
 
-    <!-- Main script for managing tasks -->
     <script src="script.js"></script>
-    <!-- Import/Export functionalities -->
     <script src="importExport.js"></script>
     <script src="darkmode.js"></script>
 </body>

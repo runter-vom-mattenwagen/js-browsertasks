@@ -14,24 +14,17 @@ document.addEventListener('DOMContentLoaded', function() {
         element.style.display = (element.style.display === 'none' || element.style.display === '') ? 'block' : 'none';
     }
 
-    // Add version info footer (only once)
-    function addVersionInfo() {
-        let versionInfo = document.getElementById('versionInfo');
-        if (!versionInfo) {
-            versionInfo = document.createElement('footer');
-            versionInfo.id = 'versionInfo';
-            versionInfo.style = 'margin-top: 20px; text-align: center; font-size: 0.9em; display: none;';
-            versionInfo.innerHTML = `Version: ${versionNumber} | <a href="${githubRepo}" target="_blank" style="text-decoration: none;">js-browsertasks</a>`;
-            document.body.appendChild(versionInfo);
-        }
-    }
-
-    addVersionInfo();
+    // Footer erzeugen
+    let versionInfo = document.createElement('footer');
+    versionInfo.id = 'versionInfo';
+    versionInfo.style = 'margin-top: 20px; text-align: center; font-size: 0.9em; display: none; text-decoration: none;';
+    versionInfo.innerHTML = `Version: ${versionNumber} | <a href=${githubRepo} target="_blank"">js-browsertasks</a>`;
+    document.body.appendChild(versionInfo);
 
     // Event: Toggle task controls and version info on settings icon click
     settingsIcon.addEventListener('click', () => {
         toggleVisibility(taskControls);
-        toggleVisibility(document.getElementById('versionInfo'));
+        toggleVisibility(versionInfo);
     });
 
     // Event: Export tasks to JSON
