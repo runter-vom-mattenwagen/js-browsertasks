@@ -83,8 +83,6 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-
-
     function updateCategoryFilter() {
         const selectedCategory = categoryFilter.value;
         categoryFilter.innerHTML = '<option value="all">All Categories</option>';
@@ -144,7 +142,6 @@ document.addEventListener('DOMContentLoaded', function() {
                     renderTasks();  // Re-render tasks to reflect changes
                 }
                 categorySpan.addEventListener('click', handleCategoryClick);
-                //
 
                 const taskText = document.createElement('span');
                 taskText.textContent = task.name;
