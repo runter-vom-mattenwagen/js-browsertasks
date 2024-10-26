@@ -146,6 +146,10 @@ document.addEventListener('DOMContentLoaded', function() {
                 const taskText = document.createElement('span');
                 taskText.textContent = task.name;
                 taskText.className = 'task-text';
+                taskText.style.cursor = 'context-menu'; // #Todo prep to context editing
+                taskText.addEventListener('click', () => {
+                    alert('Not yet implemented');
+                });
 
                 const buttonContainer = document.createElement('div');
                 buttonContainer.className = 'button-container';
@@ -153,6 +157,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 if (task.completed) {
                     listItem.classList.add('completed');
                     taskText.style.textDecoration = 'line-through';
+                    taskText.style.cursor = 'default';
                     listItem.style.backgroundColor = '';
                     listItem.style.color = ''; // marco
                     categorySpan.removeEventListener('click', handleCategoryClick);
@@ -161,7 +166,9 @@ document.addEventListener('DOMContentLoaded', function() {
                     const doneDateSpan = document.createElement('span');
                     doneDateSpan.className = 'done-date';
                     doneDateSpan.textContent = ` (${task.doneDate || 'Unknown'})`;
-                    doneDateSpan.style.marginRight = '3px';
+                    doneDateSpan.style.marginRight = '5px';
+                    doneDateSpan.style.fontSize = '0.8rem';
+                    // doneDateSpan.style.fontStyle = 'italic';
 
                     const activateButton = document.createElement('button');
                     activateButton.className = 'activate-button';
@@ -182,12 +189,11 @@ document.addEventListener('DOMContentLoaded', function() {
                     const editButton = document.createElement('button');
                     editButton.className = 'edit-button';
                     editButton.onclick = () => editTask(task.id);
+                    buttonContainer.appendChild(editButton);
 
                     const completeButton = document.createElement('button');
                     completeButton.className = 'complete-button';
                     completeButton.onclick = () => completeTask(task.id);
-
-                    buttonContainer.appendChild(editButton);
                     buttonContainer.appendChild(completeButton);
 
                     listItem.appendChild(categorySpan);
