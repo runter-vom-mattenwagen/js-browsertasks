@@ -13,15 +13,14 @@
         </h1>
 
         <div class="task-form">
-            <input type="text" id="taskInput" placeholder="New Task" class="category-input">
+            <input type="text" id="taskInput" placeholder="New Task" class="task-input">
             <input type="text" id="categoryInput" placeholder="Category">
-            <select id="categoryDropdown">
-            </select>
-            <button id="addTaskButton" style="border-radius: 2px;">➕</button>
+            <select id="categoryDropdown" ></select>
+            <button id="addTaskButton" style="border-radius: 4px;">➕</button>
         </div>
 
         <!-- Hidden task controls (import/export) -->
-        <div class="task-controls" id="taskControls" style="display: none;">
+        <div id="taskControls" style="display: none;">
             <button id="exportTasksButton" style="border-radius: 2px;">Export Tasks</button>
             <button id="importTasksButton" style="border-radius: 2px;">Import Tasks</button>
             <input type="file" id="fileInput" accept=".json" style="display: none;">

@@ -26,7 +26,7 @@ body {
     padding: 20px;
     background-color: var(--container-bg-color); /* Container background */
     border: 1px solid var(--border-color); /* Border color */
-    border-radius: 20px;
+    border-radius: 15px;
     box-shadow: 0 0 10px var(--shadow-color); /* Box shadow color */
 }
 
@@ -37,16 +37,22 @@ body {
     margin-bottom: 20px;
 }
 
-.category-input {
+.task-input {
     width: auto;
     min-width: 400px;
+    border-radius: 4px;
+    border: 1px solid var(--border-color); /* Border color */
+}
+
+#categoryInput {
+    border-radius: 4px;
+    border: 1px solid var(--border-color); /* Border color */
 }
 
 .task-list, .completed-list {
     margin-bottom: 20px;
 }
 
-/* List styles */
 ul {
     list-style: none;
     padding: 0;
@@ -65,9 +71,9 @@ li {
 /* Category label */
 .category {
     background-color: var(--category-bg-color); /* Category background */
-    color: var(--category-text-color); /* marco */
+    color: var(--category-text-color);
     padding: 2px 5px;
-    border-radius: 3px;
+    border-radius: 2px;
     margin-right: 7px;
     font-weight: bold;
 }
@@ -84,28 +90,29 @@ li {
 }
 
 button {
-    border-radius: 50%; // 50% fuer rund
+    border-radius: 50%;
     font-size: 14px;
     padding: 5px 8px;
     background-color: var(--button-bg-color);
     color: var(--button-text-color);
     border: 1px solid var(--border-color);
     box-shadow: 0 3px 3px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
 }
 
 button:hover {
     background-color: #c2c2c2;
 }
 
-
 /* Dropdown-Styles */
 select {
+    max-width: fit-content;
     font-size: 14px;
     padding: 5px 8px;
     background-color: var(--button-bg-color); /* Gleiche Hintergrundfarbe wie der Button */
     color: var(--button-text-color);          /* Gleiche Textfarbe wie der Button */
     border: 1px solid var(--border-color);    /* Gleiche Randfarbe */
-    border-radius: 5px;                       /* Gleiche Rundung */
+    border-radius: 4px;                       /* Gleiche Rundung */
     box-shadow: 0 3px 3px rgba(0, 0, 0, 0.1); /* Gleicher Schatten wie beim Button */
     cursor: pointer;                          /* Zeiger beim Hover */
 }
@@ -120,7 +127,6 @@ select option {
     background-color: var(--button-bg-color); /* Hintergrundfarbe für die Optionen */
     color: var(--button-text-color);          /* Textfarbe für die Optionen */
 }
-
 
 /* Completed task styles */
 .completed {
@@ -182,40 +188,29 @@ select option {
     background-color: #777; /* Gleicher Hover-Effekt im Dark Mode */
 }
 
-
 /* --- Responsive Design --- */
-
-/* Adjust for screens smaller than 768px (tablets and small devices) */
 @media (max-width: 768px) {
-    .container {
+
+     .container {
         max-width: 100%;
         padding: 10px;
     }
 
     .task-form {
-        flex-direction: column;
+        flex-wrap: wrap;
+        align-items: flex-start;
     }
 
-    .category-input, .task-form input, .task-form button {
-        width: 100%;
-        box-sizing: border-box;
-        padding: 10px;
+    .task-input {
+        min-width: 100%; 
     }
 
-    .task-form button {
-        margin-top: 10px; /* Adds some spacing between button and input fields */
-    }
-}
-
-/* Very small mobile screens (max-width: 480px) */
-@media (max-width: 480px) {
     .button-container {
-        display: flex;
         gap: 2px;
     }
 
     button {
-        font-size: 12px;
+        font-size: 1rem;
         padding: 5px 5px;
     }
 
@@ -227,14 +222,11 @@ select option {
         font-size: 1.2rem;
     }
 
-    .task-form input, .task-form button {
+     .task-form input, .task-form button, .task-form select {
+        box-sizing: border-box;
         font-size: 0.9rem;
-        padding: 6px;
-    }
-
-    .category-input {
-        min-width: 100%; /* Ensure input field spans full width on small screens */
-    }
+        padding: 4px;
+    } 
 }
 
 
