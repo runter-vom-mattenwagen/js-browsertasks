@@ -25,9 +25,10 @@ document.addEventListener('DOMContentLoaded', function() {
 
     categoryDropdown.addEventListener('change', function() {
         categoryInput.value = categoryDropdown.value;
+        taskInput.focus();
     });
 
-    categoryFilter.addEventListener('change', filterTasks);
+    categoryFilter.addEventListener('change', renderTasks);
 
     function addTask() {
         const taskText = taskInput.value.trim();
@@ -54,8 +55,10 @@ document.addEventListener('DOMContentLoaded', function() {
         updateCategoryDropdown();
         renderTasks();
 
-        taskInput.value = '';
-        categoryInput.value = '';
+        // taskInput.value = ''; // ueberfluessig
+        if (categoryInput.value === 'all') {
+            categoryInput.value = '';
+        }
         taskInput.focus();
     }
 
@@ -64,7 +67,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function updateCategoryDropdown() {
-        categoryDropdown.innerHTML = '<option value="">🍌</option>';
+        categoryDropdown.innerHTML = '<option value=""></option>';
         categories.forEach(category => {
 
             if (!presets.includes(category)) {
@@ -97,11 +100,13 @@ document.addEventListener('DOMContentLoaded', function() {
         categoryFilter.value = selectedCategory;
     }
 
-    function filterTasks() {
-        renderTasks();
-    }
-
     function renderTasks() {
+        if (categoryFilter.value === 'all') {
+            categoryInput.value = '';
+        } else {
+            categoryInput.value = categoryFilter.value; // Wenn Cat-Filter setze Input
+        }
+
         const taskList = document.getElementById('taskList');
         const completedList = document.getElementById('completedList');
         const filter = categoryFilter.value;
@@ -135,7 +140,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     listItem.style.color = 'black';
                 }
 
-                // marcokram
+                // marcokram: Klick auf Kategorie priorisiert Task
                 function handleCategoryClick() {
                     task.prioritized = !task.prioritized;  // Toggle priority
                     saveTasks();
@@ -146,10 +151,41 @@ document.addEventListener('DOMContentLoaded', function() {
                 const taskText = document.createElement('span');
                 taskText.textContent = task.name;
                 taskText.className = 'task-text';
-                taskText.style.cursor = 'context-menu'; // #Todo prep to context editing
-                taskText.addEventListener('click', () => {
+                taskText.style.cursor = 'context-menu';
+                taskText.addEventListener('click', handleContextClick); //Con-Text pro Task
+
+                function handleContextClick() {
                     alert('Not yet implemented');
-                });
+                    console.log("Name: ", task.name);
+                    console.log("ID  : ", task.id);
+                    console.log(task);
+                        // const taskId = parseInt(taskTextElement.dataset.taskId);  // Assuming taskId is stored as a data attribute
+                        // const task = tasks.find(task => task.id === taskId);
+                    
+                        // // Create a textarea element and set initial value
+                        // const textarea = document.createElement('textarea');
+                        // textarea.value = task.name;
+                        // textarea.className = 'task-textarea';
+                        // textarea.style.width = '100%';
+                        // taskTextElement.replaceWith(textarea);  // Replace the task text with the textarea
+                        // textarea.focus();
+                    
+                        // // Save and replace textarea with taskText on blur or Enter
+                        // function saveAndClose() {
+                        //     task.name = textarea.value.trim();
+                        //     saveTasks();
+                        //     renderTasks();  // Re-render to show updated task name
+                        // }
+                    
+                        // // Add event listeners for blur and Enter key
+                        // textarea.addEventListener('blur', saveAndClose);
+                        // textarea.addEventListener('keypress', function(event) {
+                        //     if (event.key === 'Enter') {
+                        //         event.preventDefault();
+                        //         saveAndClose();
+                        //     }
+                        // });
+                }
 
                 const buttonContainer = document.createElement('div');
                 buttonContainer.className = 'button-container';
@@ -159,16 +195,17 @@ document.addEventListener('DOMContentLoaded', function() {
                     taskText.style.textDecoration = 'line-through';
                     taskText.style.cursor = 'default';
                     listItem.style.backgroundColor = '';
-                    listItem.style.color = ''; // marco
+                    listItem.style.color = '';
                     categorySpan.removeEventListener('click', handleCategoryClick);
                     categorySpan.style.cursor = 'default';
+
+                    taskText.removeEventListener('click', handleContextClick);
 
                     const doneDateSpan = document.createElement('span');
                     doneDateSpan.className = 'done-date';
                     doneDateSpan.textContent = ` (${task.doneDate || 'Unknown'})`;
                     doneDateSpan.style.marginRight = '5px';
                     doneDateSpan.style.fontSize = '0.8rem';
-                    // doneDateSpan.style.fontStyle = 'italic';
 
                     const activateButton = document.createElement('button');
                     activateButton.className = 'activate-button';
@@ -203,6 +240,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
             }
         });
+        taskInput.value = '';
+        taskInput.focus();
     }
 
 
@@ -269,6 +308,7 @@ document.addEventListener('DOMContentLoaded', function() {
         updateCategoryFilter();
     }
 
+    // Das muss einfacher
     function adjustCategoryInputWidth() {
         const maxCategoryWidth = Math.max(...tasks.map(task => task.category.length));
         categoryInput.style.width = `${Math.max(maxCategoryWidth * 10, 100)}px`; // Breite anpassen
@@ -278,6 +318,7 @@ document.addEventListener('DOMContentLoaded', function() {
     updateCategoryDropdown();
     updateCategoryFilter();
     renderTasks();
+    // categoryInput.style.width = "fit-content";
     adjustCategoryInputWidth();
+    taskInput.focus();
 });
-
