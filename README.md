@@ -6,9 +6,9 @@ A simple task management application that runs in the browser. This app allows u
 **Live Demo (Dev):**
 
 Full browser version:
-[![Dev Version](https://img.shields.io/badge/Dev-GitHub%20Pages-blue)](https://runter-vom-mattenwagen.github.io/js-browsertasks/)<br>
+[![Full](https://img.shields.io/badge/Dev-Full-blue)](https://runter-vom-mattenwagen.github.io/js-browsertasks/)<br>
 Compact popup view:
-[![Launcher](https://img.shields.io/badge/Launcher-Popup-orange)](https://runter-vom-mattenwagen.github.io/js-browsertasks/launcher.html)
+[![Popup](https://img.shields.io/badge/Dev-Popup-orange)](https://runter-vom-mattenwagen.github.io/js-browsertasks/launcher.html)
 
 ## Features
 
