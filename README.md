@@ -1,17 +1,14 @@
-## Live Demo / Dev Branch
-
-** Full browser version:**
-[![Dev Version](https://img.shields.io/badge/Dev-GitHub%20Pages-blue)](https://runter-vom-mattenwagen.github.io/js-browsertasks/)
-
-
-**Compact popup view:**
-[![Launcher](https://img.shields.io/badge/Launcher-Popup-orange)](https://runter-vom-mattenwagen.github.io/js-browsertasks/launcher.html)
-
-
-
 # Task Manager
 
 A simple task management application that runs in the browser. This app allows users to create tasks, categorize them, mark them as completed, and edit them. Completed tasks can be reactivated or permanently deleted. The application uses `localStorage` for persistent task storage, so tasks remain even after restarting the browser.
+
+
+**Live Demo (Dev):**
+
+Full browser version:
+[![Dev Version](https://img.shields.io/badge/Dev-GitHub%20Pages-blue)](https://runter-vom-mattenwagen.github.io/js-browsertasks/)<br>
+Compact popup view:
+[![Launcher](https://img.shields.io/badge/Launcher-Popup-orange)](https://runter-vom-mattenwagen.github.io/js-browsertasks/launcher.html)
 
 ## Features
 
