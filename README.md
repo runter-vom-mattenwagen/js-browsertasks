@@ -1,12 +1,12 @@
-[![Dev Version](https://img.shields.io/badge/Dev-GitHub%20Pages-blue)](https://runter-vom-mattenwagen.github.io/js-browsertasks/)
-[![Launcher](https://img.shields.io/badge/Launcher-Popup-orange)](https://runter-vom-mattenwagen.github.io/js-browsertasks/launcher.html)
-
 ## Live Demo / Dev Branch
 
 ** Full browser version:**
-👉 https://runter-vom-mattenwagen.github.io/js-browsertasks
+[![Dev Version](https://img.shields.io/badge/Dev-GitHub%20Pages-blue)](https://runter-vom-mattenwagen.github.io/js-browsertasks/)
+
+
 **Compact popup view:**
-👉 https://runter-vom-mattenwagen.github.io/js-browsertasks/launcher.html
+[![Launcher](https://img.shields.io/badge/Launcher-Popup-orange)](https://runter-vom-mattenwagen.github.io/js-browsertasks/launcher.html)
+
 
 
 # Task Manager
