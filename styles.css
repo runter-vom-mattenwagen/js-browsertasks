@@ -80,6 +80,10 @@ li {
 
 /* Align task text and category to the left */
 .task-text {
+    margin-right: 4px;
+}
+
+.note-indicator {
     margin-right: auto;
 }
 
@@ -186,6 +190,47 @@ select option {
 
 .dark-mode select:hover {
     background-color: #777; /* Gleicher Hover-Effekt im Dark Mode */
+}
+
+#taskError {
+    display: none;
+    color: #c0392b;
+    font-size: 0.85em;
+    align-self: center;
+}
+
+.edit-input {
+    flex: 1;
+    font-size: inherit;
+    font-family: inherit;
+    padding: 1px 4px;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    background-color: var(--container-bg-color);
+    color: var(--text-color);
+}
+
+.edit-category {
+    flex: 0 0 auto;
+    width: 7em;
+    font-weight: bold;
+    background-color: var(--category-bg-color);
+}
+
+.save-edit-button::before {
+    content: '💾';
+}
+
+.note-textarea {
+    flex: 0 0 30%;
+    padding: 4px 6px;
+    font-size: 0.85em;
+    font-family: Arial, sans-serif;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    background-color: var(--container-bg-color);
+    color: var(--text-color);
+    resize: vertical;
 }
 
 /* --- Responsive Design --- */

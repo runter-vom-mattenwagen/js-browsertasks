@@ -6,7 +6,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const fileInput = document.getElementById('fileInput');
     const settingsIcon = document.getElementById('settingsIcon');
     const taskControls = document.getElementById('taskControls');
-    const versionNumber = 'v0.8.6beta'; // Update version as needed
+    const versionNumber = 'v0.8.7';
     const githubRepo = 'https://github.com/runter-vom-mattenwagen/js-browsertasks';
 
     // Utility: Toggle visibility for a given element
