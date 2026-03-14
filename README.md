@@ -2,6 +2,14 @@
 
 A simple task management application that runs in the browser. This app allows users to create tasks, categorize them, mark them as completed, and edit them. Completed tasks can be reactivated or permanently deleted. The application uses `localStorage` for persistent task storage, so tasks remain even after restarting the browser.
 
+
+**Live Demo (Dev):**
+
+Full browser version:
+[![Full](https://img.shields.io/badge/Dev-Full-blue)](https://runter-vom-mattenwagen.github.io/js-browsertasks/)<br>
+Compact popup view:
+[![Popup](https://img.shields.io/badge/Dev-Popup-orange)](https://runter-vom-mattenwagen.github.io/js-browsertasks/launcher.html)
+
 ## Features
 
 - **Add Tasks**: Create new tasks with a name and category.
