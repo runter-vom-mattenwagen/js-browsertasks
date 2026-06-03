@@ -12,36 +12,50 @@ document.addEventListener('DOMContentLoaded', function() {
     const dueDateTrigger = document.getElementById('due-date-trigger');
     const presets        = ['🛒', '🩺', '💻', '💰'];
 
-    // ── Events ───────────────────────────────────────────────────────────────
-    addTaskButton.addEventListener('click', addTask);
-    taskInput.addEventListener('keypress',     e => { if (e.key === 'Enter') addTask(); });
-    categoryInput.addEventListener('keypress', e => { if (e.key === 'Enter') addTask(); });
-    dueDateInput.addEventListener('keypress',  e => { if (e.key === 'Enter') addTask(); });
-    categoryFilter.addEventListener('change',  () => renderTasks());
-    categoryInput.addEventListener('focus', openCatDropdown);
-    categoryInput.addEventListener('input', openCatDropdown);
-    categoryInput.addEventListener('blur',  () => setTimeout(closeCatDropdown, 200));
-    dueDateTrigger.addEventListener('click', () => dueDateInput.showPicker?.());
-    document.getElementById('clearDoneButton').addEventListener('click', () => {
-        if (confirm('Alle erledigten Aufgaben löschen?')) {
-            tasks = tasks.filter(t => !t.completed);
-            saveTasks(); buildDropdownItems(); updateCategoryFilter(); renderTasks();
-        }
-    });
-    dueDateInput.addEventListener('change',  () => updateDueDateBadge());
-    dueDateBadge.addEventListener('click',   () => { dueDateInput.value = ''; updateDueDateBadge(); });
+    // ── Persistence ──────────────────────────────────────────────────────────
+    function saveTasks() {
+        localStorage.setItem('tasks', JSON.stringify(tasks));
+    }
+
+    // ── Derived data ─────────────────────────────────────────────────────────
+    function activeCategories() {
+        return [...new Set(tasks.map(t => t.category).filter(Boolean))].sort();
+    }
+
+    // ── UI refresh ───────────────────────────────────────────────────────────
+    function refresh(rerender = true) {
+        // Category dropdown
+        catDropdown.innerHTML = '';
+        const cats = activeCategories().filter(c => !presets.includes(c));
+        [...cats, ...presets].forEach(cat => {
+            const item = document.createElement('div');
+            item.textContent = cat;
+            item.addEventListener('pointerdown', e => {
+                e.preventDefault();
+                categoryInput.value = cat;
+                closeCatDropdown();
+            });
+            catDropdown.appendChild(item);
+        });
+
+        // Category filter
+        const selected = categoryFilter.value || 'all';
+        categoryFilter.innerHTML = '<option value="all">Alle Kategorien</option>';
+        activeCategories().forEach(cat => {
+            const opt = document.createElement('option');
+            opt.value = cat; opt.textContent = cat;
+            categoryFilter.appendChild(opt);
+        });
+        categoryFilter.value = [...categoryFilter.options].some(o => o.value === selected) ? selected : 'all';
+
+        if (rerender) renderTasks();
+    }
 
     // ── Helpers ──────────────────────────────────────────────────────────────
     function showError(msg) {
         taskError.textContent = msg;
         taskError.style.display = 'inline';
         setTimeout(() => { taskError.style.display = 'none'; }, 3000);
-    }
-
-    function saveTasks() { localStorage.setItem('tasks', JSON.stringify(tasks)); }
-
-    function activeCategories() {
-        return [...new Set(tasks.map(t => t.category))].sort();
     }
 
     function updateDueDateBadge() {
@@ -56,40 +70,13 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-    // ── Category Dropdown ────────────────────────────────────────────────────
-    function buildDropdownItems() {
-        catDropdown.innerHTML = '';
-        const cats = activeCategories().filter(c => !presets.includes(c));
-        [...cats, ...presets].forEach(cat => {
-            const item = document.createElement('div');
-            item.textContent = cat;
-            item.addEventListener('pointerdown', e => {
-                e.preventDefault();
-                categoryInput.value = cat;
-                closeCatDropdown();
-            });
-            catDropdown.appendChild(item);
-        });
-    }
-
+    // ── Category dropdown ────────────────────────────────────────────────────
     function openCatDropdown() {
-        buildDropdownItems();
+        refresh(false);
         catDropdown.style.display = catDropdown.children.length > 0 ? 'block' : 'none';
     }
 
     function closeCatDropdown() { catDropdown.style.display = 'none'; }
-
-    // ── Filter ───────────────────────────────────────────────────────────────
-    function updateCategoryFilter() {
-        const selected = categoryFilter.value || 'all';
-        categoryFilter.innerHTML = '<option value="all">Alle Kategorien</option>';
-        activeCategories().forEach(cat => {
-            const opt = document.createElement('option');
-            opt.value = cat; opt.textContent = cat;
-            categoryFilter.appendChild(opt);
-        });
-        categoryFilter.value = [...categoryFilter.options].some(o => o.value === selected) ? selected : 'all';
-    }
 
     // ── Core ─────────────────────────────────────────────────────────────────
     function addTask() {
@@ -97,54 +84,78 @@ document.addEventListener('DOMContentLoaded', function() {
         const catText  = categoryInput.value.trim();
         if (!taskText || !catText) { showError('Bitte Aufgabe und Kategorie eingeben.'); return; }
         tasks.push({
-            id: Date.now(), name: taskText, category: catText,
-            completed: false, prioritized: false, notes: '',
-            dueDate: dueDateInput.value || '',
+            id:          crypto.randomUUID(),
+            name:        taskText,
+            category:    catText,
+            completed:   false,
+            prioritized: false,
+            notes:       '',
+            dueDate:     dueDateInput.value || '',
         });
         taskInput.value = '';
         dueDateInput.value = '';
         updateDueDateBadge();
-        saveTasks(); buildDropdownItems(); updateCategoryFilter(); renderTasks();
+        saveTasks(); refresh();
         taskInput.focus();
     }
 
     function completeTask(id) {
-        tasks = tasks.map(t => t.id === id ? {...t, completed: true, doneDate: new Date().toISOString().split('T')[0]} : t);
-        saveTasks(); buildDropdownItems(); updateCategoryFilter(); renderTasks();
+        tasks = tasks.map(t => t.id === id
+            ? {...t, completed: true, doneDate: new Date().toISOString().split('T')[0]}
+            : t);
+        saveTasks(); refresh();
     }
 
     function activateTask(id) {
         tasks = tasks.map(t => t.id === id ? {...t, completed: false, doneDate: ''} : t);
-        saveTasks(); buildDropdownItems(); updateCategoryFilter(); renderTasks();
+        saveTasks(); refresh();
     }
 
     function deleteTask(id) {
         tasks = tasks.filter(t => t.id !== id);
-        saveTasks(); buildDropdownItems(); updateCategoryFilter(); renderTasks();
+        saveTasks(); refresh();
     }
 
     // ── Render ───────────────────────────────────────────────────────────────
     function renderTasks() {
         const taskList      = document.getElementById('taskList');
         const completedList = document.getElementById('completedList');
+        const doneHeader    = document.getElementById('doneHeader');
         const filter        = categoryFilter.value || 'all';
+        const today         = new Date(); today.setHours(0, 0, 0, 0);
         taskList.innerHTML = '';
         completedList.innerHTML = '';
 
-        [...tasks].sort((a, b) => {
+        let todoCount = 0, doneCount = 0;
+        tasks.sort((a, b) => {
             if (a.prioritized !== b.prioritized) return a.prioritized ? -1 : 1;
-            return a.id - b.id;
+            return String(a.id).localeCompare(String(b.id));
         }).forEach(task => {
             if (filter !== 'all' && task.category !== filter) return;
-            (task.completed ? completedList : taskList).appendChild(buildItem(task));
+            if (task.completed) { completedList.appendChild(buildItem(task, today)); doneCount++; }
+            else                { taskList.appendChild(buildItem(task, today));      todoCount++; }
         });
+
+        if (todoCount === 0) {
+            const empty = document.createElement('li');
+            empty.className = 'empty-state';
+            empty.textContent = 'Noch keine Aufgaben';
+            taskList.appendChild(empty);
+        }
+        if (doneHeader) {
+            const label = doneCount > 0 ? `Done (${doneCount})` : 'Done';
+            // Caret als erstes Kind beibehalten, nur Text-Suffix updaten
+            const caret = doneHeader.querySelector('.caret');
+            doneHeader.innerHTML = '';
+            if (caret) doneHeader.appendChild(caret);
+            doneHeader.appendChild(document.createTextNode(' ' + label));
+        }
     }
 
-    function buildItem(task) {
+    function buildItem(task, today) {
         const li = document.createElement('li');
         if (task.prioritized && !task.completed) li.classList.add('prioritized');
 
-        // ── shared elements ──
         const catSpan = document.createElement('span');
         catSpan.textContent = task.category;
         catSpan.className = 'category';
@@ -161,7 +172,6 @@ document.addEventListener('DOMContentLoaded', function() {
         const buttons = document.createElement('div');
         buttons.className = 'button-container';
 
-        // ── main row ──
         const mainRow = document.createElement('div');
         mainRow.className = 'task-row-main';
 
@@ -181,30 +191,35 @@ document.addEventListener('DOMContentLoaded', function() {
 
             buttons.append(activateBtn, deleteBtn);
             mainRow.append(catSpan, nameSpan, noteInd, doneDateSpan, buttons);
-            li.appendChild(mainRow);
 
         } else {
-            // due date badge
+            // Due date badge
             if (task.dueDate) {
                 const d = new Date(task.dueDate + 'T00:00:00');
-                const today = new Date(); today.setHours(0,0,0,0);
-                const overdue = d < today;
+                const diffDays = Math.round((d - today) / 86400000);
                 const dueBadge = document.createElement('span');
-                dueBadge.className = 'task-due-date' + (overdue ? ' overdue' : '');
-                dueBadge.textContent = (overdue ? '⚠ ' : '📅 ') + d.toLocaleDateString('de-DE', {day:'2-digit', month:'2-digit'});
+                let label, cls;
+                if      (diffDays  <  0) { cls = 'overdue'; label = '⚠ überfällig'; }
+                else if (diffDays === 0) { cls = 'today';   label = '📅 heute'; }
+                else if (diffDays === 1) { cls = '';        label = '📅 morgen'; }
+                else if (diffDays <=  6) { cls = '';        label = '📅 in ' + diffDays + ' Tagen'; }
+                else                     { cls = '';        label = '📅 ' + d.toLocaleDateString('de-DE', {day:'2-digit', month:'2-digit'}); }
+                dueBadge.className = 'task-due-date' + (cls ? ' ' + cls : '');
+                dueBadge.textContent = label;
+                dueBadge.title = d.toLocaleDateString('de-DE', {day:'2-digit', month:'2-digit', year:'numeric'});
                 mainRow.append(catSpan, nameSpan, noteInd, dueBadge, buttons);
             } else {
                 mainRow.append(catSpan, nameSpan, noteInd, buttons);
             }
 
-            // priority toggle
+            // Priority toggle
             catSpan.style.cursor = 'pointer';
             catSpan.addEventListener('click', () => {
                 task.prioritized = !task.prioritized;
                 saveTasks(); renderTasks();
             });
 
-            // edit button
+            // Edit
             const editBtn = document.createElement('button');
             editBtn.className = 'edit-button';
             editBtn.onclick = () => {
@@ -226,7 +241,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     const n = nameInput.value.trim(), c = catInput.value.trim();
                     if (!n || !c) return;
                     task.name = n; task.category = c;
-                    saveTasks(); buildDropdownItems(); updateCategoryFilter(); renderTasks();
+                    saveTasks(); refresh();
                 }
                 editBtn.onclick = saveEdit;
                 [nameInput, catInput].forEach(inp => inp.addEventListener('keydown', e => {
@@ -241,17 +256,15 @@ document.addEventListener('DOMContentLoaded', function() {
             completeBtn.onclick = () => completeTask(task.id);
             buttons.append(editBtn, completeBtn);
 
-            // note area — AFTER mainRow in DOM
-            li.appendChild(mainRow);
-
+            // Note area
             const noteArea = document.createElement('div');
             noteArea.className = 'note-area';
             const textarea = document.createElement('textarea');
             textarea.className = 'note-textarea';
             textarea.rows = 3;
-            textarea.value = task.notes || '';
             textarea.placeholder = 'Notiz …';
             noteArea.appendChild(textarea);
+
             function saveNote() {
                 task.notes = textarea.value.trim() || '';
                 saveTasks();
@@ -266,7 +279,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); saveNote(); }
                 if (e.key === 'Escape') noteArea.style.display = 'none';
             });
-
             nameSpan.style.cursor = 'pointer';
             nameSpan.addEventListener('click', () => {
                 if (noteArea.style.display === 'block') {
@@ -278,16 +290,68 @@ document.addEventListener('DOMContentLoaded', function() {
                     textarea.focus();
                 }
             });
-
-            return li; // early return — li already has mainRow appended
         }
 
+        li.appendChild(mainRow);
         return li;
     }
 
+    // ── Events ───────────────────────────────────────────────────────────────
+    addTaskButton.addEventListener('click', addTask);
+    [taskInput, categoryInput, dueDateInput].forEach(el =>
+        el.addEventListener('keypress', e => { if (e.key === 'Enter') addTask(); }));
+    categoryFilter.addEventListener('change', renderTasks);
+    categoryInput.addEventListener('focus', openCatDropdown);
+    categoryInput.addEventListener('input', openCatDropdown);
+    categoryInput.addEventListener('blur', () => setTimeout(closeCatDropdown, 200));
+    categoryInput.addEventListener('keydown', e => {
+        if (catDropdown.style.display !== 'block') return;
+        const items = [...catDropdown.children];
+        if (items.length === 0) return;
+        const current = catDropdown.querySelector('.active');
+        let idx = items.indexOf(current);
+
+        if (e.key === 'ArrowDown') {
+            e.preventDefault();
+            idx = (idx + 1) % items.length;
+        } else if (e.key === 'ArrowUp') {
+            e.preventDefault();
+            idx = idx <= 0 ? items.length - 1 : idx - 1;
+        } else if (e.key === 'Enter' && current) {
+            e.preventDefault();
+            categoryInput.value = current.textContent;
+            closeCatDropdown();
+            return;
+        } else if (e.key === 'Escape') {
+            closeCatDropdown();
+            return;
+        } else {
+            return;
+        }
+
+        items.forEach(i => i.classList.remove('active'));
+        items[idx].classList.add('active');
+        items[idx].scrollIntoView({block: 'nearest'});
+    });
+    dueDateTrigger.addEventListener('click', () => dueDateInput.showPicker?.());
+    dueDateInput.addEventListener('change', updateDueDateBadge);
+    dueDateBadge.addEventListener('click', () => { dueDateInput.value = ''; updateDueDateBadge(); });
+    document.getElementById('clearDoneButton').addEventListener('click', () => {
+        if (confirm('Alle erledigten Aufgaben löschen?')) {
+            tasks = tasks.filter(t => !t.completed);
+            saveTasks(); refresh();
+        }
+    });
+
+    // ── Done-Collapse ─────────────────────────────────────────────────────
+    const doneHeader = document.getElementById('doneHeader');
+    if (localStorage.getItem('done-collapsed') === '1') doneHeader.classList.add('collapsed');
+    doneHeader.addEventListener('click', () => {
+        doneHeader.classList.toggle('collapsed');
+        localStorage.setItem('done-collapsed', doneHeader.classList.contains('collapsed') ? '1' : '0');
+    });
+
     // ── Init ─────────────────────────────────────────────────────────────────
-    buildDropdownItems();
-    updateCategoryFilter();
-    renderTasks();
+    refresh();
     taskInput.focus();
 });

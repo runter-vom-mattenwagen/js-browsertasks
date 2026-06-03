@@ -238,7 +238,7 @@ li.prioritized .category {
 .dark-mode button:hover {
     background-color: #333;
     color: #fff;
-    border-color: #f5c400;
+    border-color: #58a6ff;
 }
 
 /* Dropdown im Dark Mode */
@@ -250,7 +250,7 @@ li.prioritized .category {
 
 .dark-mode select:hover {
     background-color: #2a2a2a;
-    border-color: #f5c400;
+    border-color: #58a6ff;
 }
 
 #taskError {
@@ -341,4 +341,20 @@ li.prioritized .category {
     } 
 }
 
+/* Empty state */
+.empty-state {
+    border: 1px dashed var(--border-color);
+    color: var(--completed-text-color);
+    font-size: 0.85em;
+    font-style: italic;
+    padding: 12px;
+    text-align: center;
+    display: block;
+}
 
+/* Smooth task transitions */
+li {
+    transition: opacity 0.2s ease, transform 0.2s ease, border-color 0.15s ease;
+}
+li:hover { border-color: #58a6ff; }
+.dark-mode li:hover { border-color: #58a6ff; }

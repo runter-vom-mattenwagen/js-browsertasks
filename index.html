@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>📋 Tasks</title>
-    <link rel="stylesheet" href="styles.css?v=1780487568">
+    <link rel="stylesheet" href="styles.css?v=1780510948">
     <style>
         .task-form { flex-wrap: wrap; align-items: center; }
         #cat-input-wrapper {
@@ -39,7 +39,8 @@
             white-space: nowrap;
         }
         #cat-dropdown div:hover,
-        #cat-dropdown div:active { background: var(--category-bg-color); }
+        #cat-dropdown div:active,
+        #cat-dropdown div.active { background: var(--category-bg-color); }
         .due-date-wrapper { position: relative; flex: 0 0 auto; }
         .due-date-wrapper input[type="date"] {
             position: absolute; inset: 0; width: 100%; height: 100%;
@@ -69,6 +70,9 @@
             font-size: 0.78em; color: #888; margin-left: 4px; white-space: nowrap;
         }
         .task-due-date.overdue { color: #c0392b; font-weight: 600; }
+        .task-due-date.today   { color: #d49600; font-weight: 600; }
+        .dark-mode .task-due-date.overdue { color: #ff6b6b; }
+        .dark-mode .task-due-date.today   { color: #f5c400; }
         li { flex-wrap: wrap; }
         .note-textarea {
             width: 100%; box-sizing: border-box; margin-top: 4px;
@@ -84,6 +88,10 @@
             font-size: 0.85em; color: var(--text-color);
         }
         .filter-label select { margin: 0; }
+        .collapsible { cursor: pointer; user-select: none; }
+        .collapsible .caret { display: inline-block; transition: transform 0.15s; font-size: 0.8em; }
+        .collapsed .caret { transform: rotate(-90deg); }
+        .collapsed + ul { display: none; }
         .task-text { flex: 1; cursor: pointer; }
     </style>
 </head>
@@ -125,13 +133,13 @@
         </div>
 
         <div class="completed-list">
-            <h3>Done</h3>
+            <h3 id="doneHeader" class="collapsible"><span class="caret">▾</span> Done</h3>
             <ul id="completedList"></ul>
         </div>
     </div>
 
-    <script src="script.js?v=1780487568"></script>
-    <script src="importExport.js?v=1780487568"></script>
-    <script src="darkmode.js?v=1780487568"></script>
+    <script src="script.js?v=1780510948"></script>
+    <script src="importExport.js?v=1780510948"></script>
+    <script src="darkmode.js?v=1780510948"></script>
 </body>
 </html>
