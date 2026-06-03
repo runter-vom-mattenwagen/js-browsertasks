@@ -5,8 +5,11 @@ function updateDarkModeIcon() {
     darkModeToggle.textContent = document.body.classList.contains('dark-mode') ? '☀️' : '🌙';
 }
 
-// Default to dark mode unless user explicitly disabled it
-const darkModeEnabled = localStorage.getItem('dark-mode') !== 'disabled';
+// Use localStorage preference if set, otherwise fall back to OS/browser preference
+const storedPreference = localStorage.getItem('dark-mode');
+const darkModeEnabled = storedPreference !== null
+    ? storedPreference !== 'disabled'
+    : window.matchMedia('(prefers-color-scheme: dark)').matches;
 
 if (darkModeEnabled) {
     document.body.classList.add('dark-mode');

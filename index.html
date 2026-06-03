@@ -1,40 +1,126 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="de">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>📋 Tasks</title>
-    <link rel="stylesheet" href="styles.css">
-    <script src="https://act.claude.int/widget/act-widget.js"></script>
+    <link rel="stylesheet" href="styles.css?v=1780487568">
+    <style>
+        .task-form { flex-wrap: wrap; align-items: center; }
+        #cat-input-wrapper {
+            position: relative;
+            flex: 0 1 120px;
+            min-width: 60px;
+            max-width: 120px;
+        }
+        #cat-input-wrapper input {
+            width: 100%;
+            box-sizing: border-box;
+        }
+        #cat-dropdown {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            z-index: 999;
+            background: var(--container-bg-color);
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            min-width: 130px;
+            max-height: 200px;
+            overflow-y: auto;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+        }
+        #cat-dropdown div {
+            padding: 8px 12px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            color: var(--text-color);
+            white-space: nowrap;
+        }
+        #cat-dropdown div:hover,
+        #cat-dropdown div:active { background: var(--category-bg-color); }
+        .due-date-wrapper { position: relative; flex: 0 0 auto; }
+        .due-date-wrapper input[type="date"] {
+            position: absolute; inset: 0; width: 100%; height: 100%;
+            opacity: 0; pointer-events: none; cursor: pointer;
+        }
+        .due-date-trigger {
+            background: var(--button-bg-color);
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            color: var(--button-text-color);
+            font-size: 14px; padding: 5px 8px;
+            cursor: pointer; line-height: 1;
+            box-shadow: 0 3px 3px rgba(0,0,0,0.1);
+        }
+        .due-date-trigger:hover { background-color: #c2c2c2; }
+        .due-date-badge {
+            display: none; align-items: center; gap: 4px;
+            font-size: 0.8em; color: var(--text-color);
+            background: var(--category-bg-color);
+            border: 1px solid var(--border-color);
+            border-radius: 4px; padding: 3px 7px;
+            cursor: pointer; white-space: nowrap;
+        }
+        .due-date-badge.visible { display: flex; }
+        .due-date-badge:hover { border-color: #c0392b; color: #c0392b; }
+        .task-due-date {
+            font-size: 0.78em; color: #888; margin-left: 4px; white-space: nowrap;
+        }
+        .task-due-date.overdue { color: #c0392b; font-weight: 600; }
+        li { flex-wrap: wrap; }
+        .note-textarea {
+            width: 100%; box-sizing: border-box; margin-top: 4px;
+            flex: 0 0 100%; order: 99;
+        }
+        .section-head {
+            display: flex; align-items: center; justify-content: space-between;
+            margin-bottom: 8px;
+        }
+        .section-head h3 { margin: 0; }
+        .filter-label {
+            display: inline-flex; align-items: center; gap: 6px;
+            font-size: 0.85em; color: var(--text-color);
+        }
+        .filter-label select { margin: 0; }
+        .task-text { flex: 1; cursor: pointer; }
+    </style>
 </head>
 <body>
     <div class="container">
-        <h1>Tasks 
-            <span id="settingsIcon" style="cursor: pointer;">📋</span>
-        </h1>
+        <h1 style="font-size:1.1rem;font-weight:600;margin-bottom:12px;color:var(--text-color);opacity:0.75;">Tasks <span id="settingsIcon" style="cursor:pointer;font-size:0.95rem;">📋</span></h1>
 
         <div class="task-form">
-            <input type="text" id="taskInput" placeholder="New Task" class="task-input">
-            <input type="text" id="categoryInput" placeholder="Category">
-            <select id="categoryDropdown"></select>
-            <button id="addTaskButton" style="border-radius: 4px;">+</button>
+            <input type="text" id="taskInput" placeholder="Neue Aufgabe" class="task-input" autocomplete="off">
+            <div id="cat-input-wrapper">
+                <input type="text" id="categoryInput" placeholder="Kategorie" maxlength="15" autocomplete="off">
+                <div id="cat-dropdown"></div>
+            </div>
+            <div class="due-date-wrapper">
+                <button type="button" class="due-date-trigger" id="due-date-trigger" title="Fälligkeitsdatum wählen">📅</button>
+                <input type="date" id="due-date-input">
+            </div>
+            <span class="due-date-badge" id="due-date-badge" title="Datum entfernen"></span>
+            <button id="addTaskButton" style="border-radius:4px;">+</button>
             <span id="taskError"></span>
         </div>
 
-        <!-- Hidden task controls (import/export) -->
-        <div id="taskControls" style="display: none;">
-            <button id="exportTasksButton" style="border-radius: 2px;">Export Tasks</button>
-            <button id="importTasksButton" style="border-radius: 2px;">Import Tasks</button>
-            <input type="file" id="fileInput" accept=".json" style="display: none;">
-            <button id="darkModeToggle" style="border-radius: 50%; font-size: 16px; padding: 4px 8px; vertical-align: middle;">🌙</button>
-            <act-widget endpoint="https://act.claude.int" token="act_7dc2abf4c7d849bea4744db4971d99db" mode="link" label="Feedback"></act-widget>
+        <div id="taskControls" style="display:none;">
+            <button id="exportTasksButton" style="border-radius:2px;">Export Tasks</button>
+            <button id="importTasksButton" style="border-radius:2px;">Import Tasks</button>
+            <input type="file" id="fileInput" accept=".json" style="display:none;">
+            <button id="clearDoneButton" style="border-radius:2px;">Erledigt leeren</button>
+            <button id="darkModeToggle" style="border-radius:50%;font-size:16px;padding:4px 8px;vertical-align:middle;">🌙</button>
         </div>
 
         <div class="task-list">
-            <h3>To Do</h3>
-            <select id="categoryFilter">
-                <option value="all">All Categories</option>
-            </select>
+            <div class="section-head">
+                <h3>To Do</h3>
+                <label class="filter-label">Filter:
+                    <select id="categoryFilter"><option value="all">Alle Kategorien</option></select>
+                </label>
+            </div>
             <ul id="taskList"></ul>
         </div>
 
@@ -44,9 +130,8 @@
         </div>
     </div>
 
-    <script src="script.js"></script>
-    <script src="importExport.js"></script>
-    <script src="darkmode.js"></script>
+    <script src="script.js?v=1780487568"></script>
+    <script src="importExport.js?v=1780487568"></script>
+    <script src="darkmode.js?v=1780487568"></script>
 </body>
 </html>
-

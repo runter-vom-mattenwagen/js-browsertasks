@@ -33,20 +33,46 @@ body {
 /* Flexbox for the task form */
 .task-form {
     display: flex;
-    gap: 10px;
+    gap: 8px;
     margin-bottom: 20px;
+    align-items: center;
+    background-color: var(--container-bg-color);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 10px 12px;
+}
+
+.task-form input[type="text"] {
+    font-size: 0.95rem;
+    padding: 7px 10px;
+    border-radius: 5px;
+    border: 1px solid var(--border-color);
+    background-color: var(--background-color);
+    color: var(--text-color);
+    outline: none;
+}
+
+.task-form input[type="text"]:focus,
+.task-form select:focus,
+.task-form textarea:focus {
+    border-color: #58a6ff;
+    box-shadow: 0 0 0 3px rgba(88, 166, 255, 0.15);
+}
+.dark-mode .task-form input[type="text"]:focus,
+.dark-mode .task-form select:focus {
+    border-color: #58a6ff;
+    box-shadow: 0 0 0 3px rgba(88, 166, 255, 0.12);
 }
 
 .task-input {
-    width: auto;
-    min-width: 400px;
-    border-radius: 4px;
-    border: 1px solid var(--border-color); /* Border color */
+    flex: 1 1 auto;
+    min-width: 0;
 }
 
 #categoryInput {
-    border-radius: 4px;
-    border: 1px solid var(--border-color); /* Border color */
+    flex: 0 1 120px;
+    min-width: 60px;
+    max-width: 120px;
 }
 
 .task-list, .completed-list {
@@ -60,27 +86,50 @@ ul {
 
 li {
     display: flex;
-    align-items: center;
+    flex-direction: column;
     margin-bottom: 5px;
     padding: 3px;
     border: 1px solid var(--border-color);
     border-radius: 5px;
-    justify-content: space-between;
+}
+.task-row-main {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    gap: 4px;
 }
 
 /* Category label */
 .category {
-    background-color: var(--category-bg-color); /* Category background */
+    flex: 0 0 auto;
+    font-size: 0.82rem;
+    font-weight: 600;
+    padding: 0.1rem 0.45rem;
+    border-radius: 4px;
+    background-color: var(--category-bg-color);
     color: var(--category-text-color);
-    padding: 2px 5px;
-    border-radius: 2px;
-    margin-right: 7px;
-    font-weight: bold;
+    margin-right: 6px;
+    cursor: pointer;
+    user-select: none;
+    white-space: nowrap;
+    text-align: center;
 }
 
 /* Align task text and category to the left */
+.task-row-main {
+    display: flex;
+    align-items: center;
+    flex: 1;
+    gap: 4px;
+    min-width: 0;
+}
 .task-text {
-    margin-right: 4px;
+    flex: 1;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    cursor: pointer;
 }
 
 .note-indicator {
@@ -100,12 +149,14 @@ button {
     background-color: var(--button-bg-color);
     color: var(--button-text-color);
     border: 1px solid var(--border-color);
-    box-shadow: 0 3px 3px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     cursor: pointer;
+    transition: background-color 0.15s, border-color 0.15s, box-shadow 0.15s;
 }
 
 button:hover {
     background-color: #c2c2c2;
+    box-shadow: 0 3px 8px rgba(0,0,0,0.15);
 }
 
 /* Dropdown-Styles */
@@ -132,40 +183,48 @@ select option {
     color: var(--button-text-color);          /* Textfarbe für die Optionen */
 }
 
+/* Prioritized task */
+li.prioritized {
+    background-color: rgba(245, 196, 0, 0.12);
+    border-color: #f5c400;
+}
+li.prioritized .category {
+    background-color: rgba(245, 196, 0, 0.25);
+    color: #a07800;
+}
+.dark-mode li.prioritized .category {
+    color: #f5c400;
+    background-color: rgba(245, 196, 0, 0.15);
+}
+
 /* Completed task styles */
 .completed {
     color: var(--completed-text-color);
 }
 
 /* Icon button styles */
-.edit-button::before {
-    content: '✏️';
-}
+.edit-button::before      { content: '✏️'; }
+.delete-button::before    { content: '🗑️'; }
+.activate-button::before  { content: '↩️'; }
+.complete-button::before  { content: '✔'; }
+.save-edit-button::before { content: '💾'; }
 
-.delete-button::before {
-    content: '🗑️';
-}
-
-.activate-button::before {
-    content: '↩';
-    color: black;
-}
-
-.complete-button::before {
-    content: '✔';
-}
+.complete-button:hover  { background-color: rgba(40,167,69,0.2) !important; border-color: #28a745 !important; }
+.delete-button:hover    { background-color: rgba(220,53,69,0.2) !important; border-color: #dc3545 !important; }
+.activate-button:hover  { background-color: rgba(88,166,255,0.2) !important; border-color: #58a6ff !important; }
+.edit-button:hover      { background-color: rgba(245,196,0,0.2) !important; border-color: #f5c400 !important; }
 
 .dark-mode {
-    --background-color: #121212; /* Darker background for dark mode */
-    --text-color: #f4f4f4; /* Lighter text color for contrast */
-    --container-bg-color: #1e1e1e; /* Dark container background */
-    --border-color: #333; /* Darker border color */
-    --shadow-color: rgba(255, 255, 255, 0.1); /* Softer shadow */
-    --category-bg-color: #666; /* Darker category background */
-    --category-text-color: #000;
-    --completed-text-color: #aaa; /* Lighter color for completed tasks */
-    --button-bg-color: #666; /* Darker button background */
-    --button-text-color: #fff; /* Lighter button text color */
+    --background-color: #0d0d0d;
+    --text-color: #e0e0e0;
+    --container-bg-color: #161616;
+    --border-color: #2a2a2a;
+    --shadow-color: rgba(0, 0, 0, 0.6);
+    --category-bg-color: #2a2a2a;
+    --category-text-color: #ccc;
+    --completed-text-color: #555;
+    --button-bg-color: #222;
+    --button-text-color: #ccc;
 }
 
 /* Button styles for dark mode */
@@ -177,8 +236,9 @@ select option {
 
 /* Button hover effect in dark mode */
 .dark-mode button:hover {
-    background-color: #444; /* Slightly lighter on hover */
-    color: #fff; /* Ensure the text stays white */
+    background-color: #333;
+    color: #fff;
+    border-color: #f5c400;
 }
 
 /* Dropdown im Dark Mode */
@@ -189,7 +249,8 @@ select option {
 }
 
 .dark-mode select:hover {
-    background-color: #777; /* Gleicher Hover-Effekt im Dark Mode */
+    background-color: #2a2a2a;
+    border-color: #f5c400;
 }
 
 #taskError {
@@ -217,12 +278,18 @@ select option {
     background-color: var(--category-bg-color);
 }
 
-.save-edit-button::before {
-    content: '💾';
-}
 
+.note-area {
+    display: none;
+    width: 100%;
+    flex: 0 0 100%;
+    margin-top: 4px;
+    padding: 0 8px 8px 8px;
+    box-sizing: border-box;
+}
 .note-textarea {
-    flex: 0 0 30%;
+    width: 100%;
+    box-sizing: border-box;
     padding: 4px 6px;
     font-size: 0.85em;
     font-family: Arial, sans-serif;
